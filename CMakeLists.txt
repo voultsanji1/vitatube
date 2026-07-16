@@ -72,7 +72,7 @@ target_link_libraries(${PROJECT_NAME}
   pthread
 )
 
-vita_create_self(${PROJECT_NAME}.self ${PROJECT_NAME} UNSAFE)
+vita_create_self(${PROJECT_NAME}.self ${PROJECT_NAME} UNSAFE MEMSIZE 200MB)
 
 vita_create_vpk(${PROJECT_NAME}.vpk ${VITA_TITLEID} ${PROJECT_NAME}.self
   VERSION ${VITA_VERSION}
