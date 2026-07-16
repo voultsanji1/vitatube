@@ -24,6 +24,8 @@ static PlayerState g_state = PLAYER_IDLE;
 static char g_message[128];
 static int g_width = 0, g_height = 0, g_duration = 0, g_paused = 0;
 static float g_volume = 1.0f;
+static vita2d_texture *g_texture = NULL;
+static int g_tex_w = 0, g_tex_h = 0;
 
 static void *avAlloc(void *arg, uint32_t alignment, uint32_t size)
 {
@@ -148,6 +150,12 @@ void playerClose(void)
         sceAvPlayerClose(g_handle);
         g_handle = 0;
     }
+    if (g_texture) {
+        vita2d_free_texture(g_texture);
+        g_texture = NULL;
+        g_tex_w = 0;
+        g_tex_h = 0;
+    }
     if (g_source.stream) {
         httpStreamClose(g_source.stream);
         g_source.stream = NULL;
@@ -208,25 +216,30 @@ void playerDraw(void)
     if (w <= 0 || h <= 0 || w > 1920 || h > 1080)
         return;
 
-    vita2d_texture *tex = vita2d_create_empty_texture_format(w, h,
-        SCE_GXM_TEXTURE_FORMAT_R5G6B5);
-    if (!tex)
+    if (!g_texture || g_tex_w != w || g_tex_h != h) {
+        if (g_texture)
+            vita2d_free_texture(g_texture);
+        g_texture = vita2d_create_empty_texture_format(w, h,
+            SCE_GXM_TEXTURE_FORMAT_R5G6B5);
+        g_tex_w = w;
+        g_tex_h = h;
+    }
+    if (!g_texture)
         return;
 
-    uint16_t *dst = vita2d_texture_get_datap(tex);
+    uint16_t *dst = vita2d_texture_get_datap(g_texture);
     const uint8_t *y = info.pData;
-    const uint8_t *u = y + (size_t)w * h;
-    const uint8_t *v = u + (size_t)w * h / 4;
-    int pitch = w;
+    const uint8_t *uv = y + (size_t)w * h;
 
     for (int yy = 0; yy < h; yy++) {
         for (int xx = 0; xx < w; xx++) {
-            int yv = y[yy * pitch + xx];
-            int uv = u[(yy / 2) * (pitch / 2) + (xx / 2)];
-            int vv = v[(yy / 2) * (pitch / 2) + (xx / 2)];
+            int yv = y[yy * w + xx];
+            const uint8_t *p = uv + ((yy >> 1) * w) + ((xx >> 1) << 1);
+            int uvv = p[0];
+            int vv = p[1];
             int cr = yv + ((vv - 128) * 1436 >> 10);
-            int cg = yv - (((uv - 128) * 352 + (vv - 128) * 731) >> 10);
-            int cb = yv + ((uv - 128) * 1814 >> 10);
+            int cg = yv - (((uvv - 128) * 352 + (vv - 128) * 731) >> 10);
+            int cb = yv + ((uvv - 128) * 1814 >> 10);
             if (cr < 0) cr = 0; else if (cr > 255) cr = 255;
             if (cg < 0) cg = 0; else if (cg > 255) cg = 255;
             if (cb < 0) cb = 0; else if (cb > 255) cb = 255;
@@ -238,8 +251,7 @@ void playerDraw(void)
     float scale = (float)SCREEN_H / h;
     dw = (int)(w * scale);
     int dx = (SCREEN_W - dw) / 2;
-    vita2d_draw_texture_scale(tex, dx, 0, (float)dw / w, (float)SCREEN_H / h);
-    vita2d_free_texture(tex);
+    vita2d_draw_texture_scale(g_texture, dx, 0, (float)dw / w, (float)SCREEN_H / h);
 }
 
 void playerTogglePause(void)

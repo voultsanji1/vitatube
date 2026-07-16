@@ -1,6 +1,7 @@
 #include "ui.h"
 #include <vita2d.h>
 #include <psp2/ctrl.h>
+#include <psp2/display.h>
 #include <string.h>
 #include <stdio.h>
 
