@@ -1,6 +1,8 @@
 #ifndef VITATUBE_HTTP_H
 #define VITATUBE_HTTP_H
 
+#include <stdint.h>
+
 typedef struct {
     const char *name;
     const char *value;

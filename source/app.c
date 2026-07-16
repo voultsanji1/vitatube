@@ -13,8 +13,10 @@
 #include <psp2/ctrl.h>
 #include <psp2/ime_dialog.h>
 #include <psp2/common_dialog.h>
+#include <psp2/kernel/threadmgr.h>
 #include <psp2/types.h>
 #include <psp2common/types.h>
+#include <vita2d.h>
 #include <wchar.h>
 #include <string.h>
 #include <stdio.h>

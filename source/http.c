@@ -1,6 +1,5 @@
 #include "http.h"
 #include <psp2/net/http.h>
-#include <psp2/net/ssl.h>
 #include <psp2/net/net.h>
 #include <psp2/kernel/threadmgr.h>
 #include <string.h>

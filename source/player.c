@@ -1,6 +1,7 @@
 #include "player.h"
 #include "http.h"
 #include "log.h"
+#include <vita2d.h>
 #include <psp2/avplayer.h>
 #include <psp2/sysmodule.h>
 #include <psp2/kernel/threadmgr.h>

@@ -8,8 +8,10 @@
 #include <psp2/power.h>
 #include <psp2/apputil.h>
 #include <psp2/common_dialog.h>
+#include <psp2/kernel/processmgr.h>
 #include <vitaGL.h>
 #include <stdio.h>
+#include <string.h>
 
 int main(void)
 {
@@ -40,6 +42,6 @@ int main(void)
     playerTerm();
     uiEndFrame();
     httpTerm();
-    vglEnd();
+    sceKernelExitProcess(0);
     return 0;
 }
