@@ -46,8 +46,6 @@ target_link_libraries(${PROJECT_NAME}
   SceGxm_stub
   SceDisplay_stub
   SceShaccCg_stub
-  SceShaccCgExt
-  taihen_stub
   SceKernelDmacMgr_stub
   SceNet_stub
   SceNetCtl_stub
@@ -72,7 +70,7 @@ target_link_libraries(${PROJECT_NAME}
   pthread
 )
 
-vita_create_self(${PROJECT_NAME}.self ${PROJECT_NAME} UNSAFE MEMSIZE 200MB)
+vita_create_self(${PROJECT_NAME}.self ${PROJECT_NAME})
 
 vita_create_vpk(${PROJECT_NAME}.vpk ${VITA_TITLEID} ${PROJECT_NAME}.self
   VERSION ${VITA_VERSION}
