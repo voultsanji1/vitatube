@@ -12,7 +12,7 @@ project(vitatube C CXX)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
 set(VITA_APP_NAME "VitaTube")
-set(VITA_TITLEID "VITATUBE")
+set(VITA_TITLEID "VITATUBE1")
 set(VITA_VERSION "01.00")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O2 -std=c11")
