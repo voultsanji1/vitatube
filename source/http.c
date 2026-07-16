@@ -62,7 +62,6 @@ int httpRequest(const char *method, const char *url,
         return req;
     }
 
-    int cookie = 0;
     sceHttpSetAutoRedirect(req, SCE_TRUE);
 
     for (int i = 0; i < headerCount; i++)

@@ -172,17 +172,16 @@ void playerUpdate(PlayerStatus *status)
     }
 
     if (g_state == PLAYER_LOADING) {
-        uint32_t count = sceAvPlayerStreamCount(g_handle);
-        for (uint32_t i = 0; i < count; i++) {
+        for (uint32_t i = 0; i < 8; i++) {
             SceAvPlayerStreamInfo info;
             memset(&info, 0, sizeof info);
-            if (sceAvPlayerGetStreamInfo(g_handle, i, &info) == 0) {
-                if (info.type == SCE_AVPLAYER_VIDEO && info.details.video.width > 0) {
-                    g_width = info.details.video.width;
-                    g_height = info.details.video.height;
-                    g_duration = (int)(info.duration / 1000);
-                    g_state = PLAYER_PLAYING;
-                }
+            if (sceAvPlayerGetStreamInfo(g_handle, i, &info) != 0)
+                break;
+            if (info.type == SCE_AVPLAYER_VIDEO && info.details.video.width > 0) {
+                g_width = info.details.video.width;
+                g_height = info.details.video.height;
+                g_duration = (int)(info.duration / 1000);
+                g_state = PLAYER_PLAYING;
             }
         }
     }

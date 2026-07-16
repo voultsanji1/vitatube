@@ -117,7 +117,7 @@ int extractVideoInfo(const char *input, StreamInfo *out)
     return ex->extract(input, out);
 }
 
-static void playFromInput(const char *input)
+void playFromInput(const char *input)
 {
     if (extractVideoInfo(input, &g_current) != 0) {
         logError("extract failed\n");
