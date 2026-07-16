@@ -18,7 +18,7 @@ jobs:
         run: |
           export VITASDK=/usr/local/vitasdk
           export PATH=$VITASDK/bin:$PATH
-          vdpm install libvita2d_vgl vitaGL vitaShaRK libmathneon SceShaccCgExt
+          vdpm install libvita2d_vgl vitaGL vitaShaRK libmathneon SceShaccCgExt taihen
 
       - name: Configure
         run: |
