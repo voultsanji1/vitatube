@@ -1,0 +1,7 @@
+build/
+*.vpk
+*.self
+*.elf
+*.velf
+.DS_Store
+.vscode/

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<livearea style="grid">
+  <livearea-background>
+    <image>bg.png</image>
+  </livearea-background>
+  <gate>
+    <startup>startup.png</startup>
+    <icon>icon0.png</icon>
+  </gate>
+  <frame caption="VitaTube">
+    <canvas>
+      <scrollblock>
+        <text align="center" font-size="24" color="white" margin="20">VitaTube</text>
+        <text align="center" font-size="18" color="gray" margin="20">A native YouTube client for PS Vita.</text>
+        <text align="center" font-size="16" color="gray" margin="20">Browse, search and play YouTube videos through SceAvPlayer.</text>
+      </scrollblock>
+    </canvas>
+  </frame>
+</livearea>
