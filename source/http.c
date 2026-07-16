@@ -1,6 +1,7 @@
 #include "http.h"
 #include <psp2/net/http.h>
 #include <psp2/net/net.h>
+#include <psp2/sysmodule.h>
 #include <psp2/kernel/threadmgr.h>
 #include <string.h>
 #include <stdlib.h>
@@ -21,8 +22,7 @@ int httpInit(void)
     int ret = sceNetInit(&netParam);
     if (ret < 0 && ret != 0x80412101)
         return ret;
-    if (sceSslInit(1 * 1024 * 1024) < 0)
-        return -1;
+    sceSysmoduleLoadModule(SCE_SYSMODULE_SSL);
     if (sceHttpInit(1 * 1024 * 1024) < 0)
         return -1;
 
@@ -41,7 +41,7 @@ void httpTerm(void)
     if (g_template >= 0)
         sceHttpDeleteTemplate(g_template);
     sceHttpTerm();
-    sceSslTerm();
+    sceSysmoduleUnloadModule(SCE_SYSMODULE_SSL);
     sceNetTerm();
     g_initialized = 0;
     g_template = -1;
@@ -63,18 +63,18 @@ int httpRequest(const char *method, const char *url,
     }
 
     int cookie = 0;
-    sceHttpSetResAutoRedirect(req, SCE_TRUE);
+    sceHttpSetAutoRedirect(req, SCE_TRUE);
 
     for (int i = 0; i < headerCount; i++)
-        sceHttpAddRequestHeader(req, headers[i].name, headers[i].value, SCE_HTTP_HEADER_OP_APPEND);
+        sceHttpAddRequestHeader(req, headers[i].name, headers[i].value, SCE_HTTP_HEADER_ADD);
 
-    sceHttpAddRequestHeader(req, "Accept-Encoding", "identity", SCE_HTTP_HEADER_OP_APPEND);
+    sceHttpAddRequestHeader(req, "Accept-Encoding", "identity", SCE_HTTP_HEADER_ADD);
 
     int rc = sceHttpSendRequest(req, body, bodyLen);
 
     int st = 0;
     if (rc >= 0) {
-        if (sceHttpGetResponseStatusCode(req, &st, &cookie) == 0)
+        if (sceHttpGetStatusCode(req, &st) == 0)
             *status = st;
         else
             *status = 0;
@@ -143,7 +143,7 @@ static int streamReadOnce(const char *url, uint64_t offset, char *buf, uint32_t 
     char range[64];
     snprintf(range, sizeof(range), "bytes=%llu-%llu", (unsigned long long)offset,
              (unsigned long long)(offset + len - 1));
-    sceHttpAddRequestHeader(req, "Range", range, SCE_HTTP_HEADER_OP_APPEND);
+    sceHttpAddRequestHeader(req, "Range", range, SCE_HTTP_HEADER_ADD);
 
     int rc = sceHttpSendRequest(req, NULL, 0);
     int got = 0;

@@ -1,5 +1,6 @@
 #include "extractor.h"
 #include "youtube.h"
+#include <stddef.h>
 
 extern const Extractor youtubeExtractor;
 
