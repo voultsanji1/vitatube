@@ -46,6 +46,7 @@ target_link_libraries(${PROJECT_NAME}
   SceGxm_stub
   SceDisplay_stub
   SceShaccCg_stub
+  SceShaccCgExt
   SceKernelDmacMgr_stub
   SceNet_stub
   SceNetCtl_stub
