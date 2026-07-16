@@ -18,7 +18,7 @@ jobs:
         run: |
           export VITASDK=/usr/local/vitasdk
           export PATH=$VITASDK/bin:$PATH
-          vdpm install libvita2d vitaGL vitaShaRK
+          vdpm install libvita2d_vgl vitaGL vitaShaRK
 
       - name: Configure
         run: |

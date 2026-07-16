@@ -200,11 +200,11 @@ void playerDraw(void)
 
     SceAvPlayerFrameInfo info;
     memset(&info, 0, sizeof info);
-    if (sceAvPlayerGetVideoData(g_handle, &info) != 0 || !info.pData)
+    if (sceAvPlayerGetVideoData(g_handle, &info) == SCE_FALSE || !info.pData)
         return;
 
-    int w = info.width;
-    int h = info.height;
+    int w = g_width;
+    int h = g_height;
     if (w <= 0 || h <= 0 || w > 1920 || h > 1080)
         return;
 
@@ -217,7 +217,7 @@ void playerDraw(void)
     const uint8_t *y = info.pData;
     const uint8_t *u = y + (size_t)w * h;
     const uint8_t *v = u + (size_t)w * h / 4;
-    int pitch = info.pitch > 0 ? info.pitch : w;
+    int pitch = w;
 
     for (int yy = 0; yy < h; yy++) {
         for (int xx = 0; xx < w; xx++) {
