@@ -40,11 +40,14 @@ target_link_libraries(${PROJECT_NAME}
   vita2d_vgl
   vitaGL
   vitashark
+  mathneon
   SceLibKernel_stub
   SceCtrl_stub
   SceGxm_stub
   SceDisplay_stub
   SceShaccCg_stub
+  SceShaccCgExt
+  SceKernelDmacMgr_stub
   SceNet_stub
   SceNetCtl_stub
   SceHttp_stub
