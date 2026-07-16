@@ -1,10 +1,9 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5...3.27)
+if(CMAKE_VERSION VERSION_LESS 3.5)
+  set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+endif()
 set(CMAKE_TOOLCHAIN_FILE "$ENV{VITASDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
 project(vitatube C CXX)
-include("$ENV{VITASDK}/share/vita.cmake" OPTIONAL)
-if(NOT COMMAND vita_create_self)
-  include("$ENV{VITASDK}/lib/cmake/vita/vita.cmake")
-endif()
 
 set(VITA_APP_NAME "VitaTube")
 set(VITA_TITLEID "VITATUBE")
@@ -12,12 +11,6 @@ set(VITA_VERSION "01.00")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O2 -std=c11")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
-find_package(vita2d)
-find_package(SDL2)
-link_directories(
-  ${CMAKE_CURRENT_BINARY_DIR}
-)
 
 include_directories(
   source
@@ -51,6 +44,7 @@ target_link_libraries(${PROJECT_NAME}
   SceCtrl_stub
   SceGxm_stub
   SceDisplay_stub
+  SceShaccCg_stub
   SceNet_stub
   SceNetCtl_stub
   SceHttp_stub
