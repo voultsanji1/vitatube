@@ -12,7 +12,9 @@
 
 #include <psp2/ctrl.h>
 #include <psp2/ime_dialog.h>
+#include <psp2/common_dialog.h>
 #include <psp2/types.h>
+#include <psp2common/types.h>
 #include <wchar.h>
 #include <string.h>
 #include <stdio.h>
@@ -25,7 +27,7 @@ static SceCtrlData g_pad, g_prevPad;
 static int g_running = 1;
 static int g_lastPos = 0;
 
-static SceWChar16 g_queryW[256];
+static SceWChar16 g_queryW[SCE_IME_DIALOG_MAX_TEXT_LENGTH + 1];
 static char g_query[256];
 static int g_editing = 0;
 
@@ -73,18 +75,21 @@ static void openIme(void)
 {
     SceImeDialogParam param;
     sceImeDialogParamInit(&param);
-    param.maxTextLength = sizeof(g_queryW) - 1;
+    param.sdkVersion = PSP2_SDK_VERSION;
+    param.supportedLanguages = 0x0001FFFF;
+    param.languagesForced = SCE_TRUE;
+    param.type = SCE_IME_DIALOG_TEXTBOX_MODE_DEFAULT;
+    param.title = u"Search YouTube";
+    param.maxTextLength = SCE_IME_DIALOG_MAX_TEXT_LENGTH;
     param.inputTextBuffer = g_queryW;
-    param.title = L"Search YouTube";
     if (sceImeDialogInit(&param) >= 0)
         g_editing = 1;
 }
 
 static void updateIme(void)
 {
-    SceImeDialogStatus status;
-    sceImeDialogGetStatus(&status);
-    if (status == SCE_IME_DIALOG_STATUS_FINISHED) {
+    SceCommonDialogStatus status = sceImeDialogGetStatus();
+    if (status == SCE_COMMON_DIALOG_STATUS_FINISHED) {
         SceImeDialogResult result;
         memset(&result, 0, sizeof result);
         sceImeDialogGetResult(&result);

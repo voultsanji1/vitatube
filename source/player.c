@@ -185,8 +185,7 @@ void playerUpdate(PlayerStatus *status)
     status->paused = g_paused;
 
     if (g_state == PLAYER_PLAYING) {
-        uint64_t t = 0;
-        sceAvPlayerCurrentTime(g_handle, &t);
+        uint64_t t = sceAvPlayerCurrentTime(g_handle);
         status->position = (int)(t / 1000);
     }
 
