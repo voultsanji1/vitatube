@@ -38,7 +38,7 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
   vita2d_vgl
-  vitagl
+  vitaGL
   vitashark
   SceLibKernel_stub
   SceCtrl_stub
@@ -61,8 +61,7 @@ target_link_libraries(${PROJECT_NAME}
   SceIofilemgr_stub
   SceProcessmgr_stub
   ScePgf_stub
-  SceFont_stub
-  SceImeDialog_stub
+  SceIme_stub
   c
   m
   stdc++
