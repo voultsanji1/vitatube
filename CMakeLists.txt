@@ -67,7 +67,7 @@ target_link_libraries(${PROJECT_NAME}
 
 vita_create_self(${PROJECT_NAME}.self ${PROJECT_NAME} UNSAFE)
 
-add_custom_target(param_sfo ALL
+execute_process(
   COMMAND ${VITASDK}/bin/vita-mksfoex -s TITLE_ID=${VITA_TITLEID} -d VERSION=${VITA_VERSION} "${VITA_APP_NAME}" sce_sys/param.sfo
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
